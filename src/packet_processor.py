@@ -395,12 +395,13 @@ class PacketProcessor(object):
             return
         
         device_port = pkt[sc.TCP].sport
+        protocol_dest = pkt[sc.TCP].dport
 
         with self._host_state.lock:
             self._host_state \
                 .pending_dns_dict \
                 .setdefault(
-                    (device_id, http_host, 'http-host', device_port), set()) \
+                    (device_id, http_host, 'http-host', device_port, protocol_dest), set()) \
                 .add(remote_ip)
 
         utils.log('[UPLOAD] HTTP host:', http_host)

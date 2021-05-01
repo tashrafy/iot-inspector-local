@@ -231,6 +231,7 @@ def get_traffic():
             # Dest stats
             device_id = flow_key[0]
             dest_ip = flow_key[2]
+            dest_port = flow_key[3]
             dest_domain = get_domain_name(host_state, device_id, dest_ip)
             # Make sure device is whitelisted
             if device_id not in host_state.device_whitelist:
@@ -245,8 +246,10 @@ def get_traffic():
                 outbound_bps = flow_stats['outbound_byte_count'] / delta_ts
             # Send to output
             device_dict = output_dict.setdefault(device_id, {})
+
             if dest_ip not in device_dict:
                 device_dict[dest_ip] = {
+                    'protocol': dest_port,
                     'hostname': dest_domain,
                     'short_domain': '',                 # TODO; not implemented
                     'owner_company': '',                # TODO; not implemented
