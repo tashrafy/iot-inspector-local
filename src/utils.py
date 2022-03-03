@@ -176,7 +176,7 @@ def get_network_ip_range():
         iface_str = sc.conf.iface
 
     netmask = None
-    for k, v in netifaces.ifaddresses(iface_str).items():
+    for k, v in netifaces.ifaddresses(str(iface_str)).items():
         if v[0]['addr'] == default_route[2]:
             netmask = v[0]['netmask']
             break
